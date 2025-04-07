@@ -19,14 +19,28 @@ public class CurrencyExchangeAgent {
 
     //parse requests with the following structure:
     //"Convert $amount $startingCurrency to $targetCurrency"
-    public void parseRequest(String request) throws IOException {
+    public void parseRequest(String request) {
+        // Check if the request has the required structure.
+        // While the string should be all lower case at this point, still check for capital
+        // letters in case this changes
+        if(!request.matches("convert\\s+\\d+(\\.\\d+)?\\s+[a-zA-Z]{3}\\s+to\\s+[a-zA-Z]{3}")){
+            System.out.println("I don't understand your request. Please make sure it has the following " +
+                    "structure:\n\"Convert $amount $startingCurrency to $targetCurrency\"");
+            return;
+        }
         String[] words = request.split(" ");
         amount = Double.parseDouble(words[1]);
         startingCurrency = words[2];
         targetCurrency = words[4];
-        conversionRate = getConversionRate();
+        try {
+            conversionRate = getConversionRate();
+        } catch (IOException e) {
+            System.out.println("Your currency code might be incorrect. " +
+                    "Please make sure it is an ISO 4217 Three Letter Currency Code (e. g. EUR, USD)");
+            return;
+        }
         double result = amount * conversionRate;
-        System.out.println(amount + " " + startingCurrency + " in " + targetCurrency + " is " + result);
+        System.out.println(amount + " " + startingCurrency + " in " + targetCurrency + " is " + result + " " + targetCurrency);
     }
 
     private String buildURL(){
