@@ -12,10 +12,11 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        System.out.println("Hello! You can enter requests with the following structure:\n" +
-                "\"Convert $amount $startingCurrency to $targetCurrency\".\n" +
-                "Please use ISO 4217 Three Letter Currency Codes for currencies (e. g. EUR, USD). " +
-                "Type \"exit\" to quit.");
+        System.out.println("""
+                Hello! You can enter requests with the following structure:
+                "Convert $amount $startingCurrency to $targetCurrency".
+                Please use ISO 4217 Three Letter Currency Codes for currencies (e. g. EUR, USD). \
+                Type "exit" to quit.""");
 
         CurrencyExchangeAgent agent = new CurrencyExchangeAgent();
 
